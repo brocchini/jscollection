@@ -54,6 +54,15 @@ col.add('ana');
 col.show();
 
 */
+
+/*
+if (!window.console) console = {};
+console.log = console.log || function(){};
+console.warn = console.warn || function(){};
+console.error = console.error || function(){};
+console.info = console.info || function(){};
+*/
+
 function Collection()
 {
 	this.listContainer_	= new Array();
@@ -67,44 +76,77 @@ Collection.prototype = {
 		return !this.listContainer_.length > 0;
 	},
 
+    size : function ()
+    {
+      return this.listContainer_.length;
+    },
+  
 	hasNext : function ()
 	{
 		return ( !this.isEmpty() ) &&  ( ( this.pointer_ + 1) <  this.listContainer_.length );
 	},
 
 	next : function ()
-	{
+	{  
 		if ( !this.hasNext() )
 		{
 			return null;
 		}
 		return (this.listContainer_[++this.pointer_]);
-
+	},
+	
+	add : function ( obj )
+	{
+		this.listContainer_[this.listContainer_.length] = obj;
+	},
+	
+	get : function ( i )
+	{
+	  return this.listContainer_[i];	
 	},
 
-	get : function ( obj )
+	contains : function ( obj )
 	{
-		this.pointer_ = -1;
+	    this.pointer_ = -1;
 		var item;
 		while( this.hasNext())
 		{
 			item = this.next();
 			if ( obj == item )
 			{
-				return item;
+				return true;
 			}
 		}
-
-		item = null;
-
-		return item;
+	
+		return false;
 	},
-
-	contains : function ( obj )
+	
+	indexOf: function ( item )
 	{
-		return  ( this.get ( obj ) ) != null;
+		this.pointer_ = -1;
+		while( this.hasNext())
+		{
+			if (this.next() == item )
+			{
+				return this.pointer_;
+			}
+		}
+        
+        return -1;
 	},
 
+	remove : function ( item )
+	{
+		this.pointer_ = -1;
+		while( this.hasNext())
+		{
+			if (this.next() == item )
+			{
+				this.listContainer_.splice(this.pointer_, 1);
+			}
+		}
+	},
+	
 	search : function ( comparatorProperty, comparatorValue )
 	{
 		this.pointer_ = -1;
@@ -131,56 +173,6 @@ Collection.prototype = {
 			item = this.next();
 			map (item)
 		}
-	},
-	
-	add : function ( obj )
-	{
-		this.listContainer_[this.listContainer_.length] = obj;
-	},
-
-	remove : function ( item )
-	{
-		this.pointer_ = -1;
-		while( this.hasNext())
-		{
-			if (this.next() == item )
-			{
-				this.listContainer_.splice(this.pointer_, 1);
-			}
-		}
-
-	},
-
-	createFromList : function ( source, separator )
-	{
-		this.pointer_ = -1;
-		var separ;
-		if ( separator )
-		{
-			separ = separator;
-		}
-		else
-		{
-			separ = ' ';
-		}
-		this.listContainer_ = source.split( separ );
-	},
-
-	show : function ( property )
-	{
-		this.pointer_ = -1;
-		var result = 'Collection\n\n';
-		while( this.hasNext())
-		{	if ( property )
-			{
-				result = result + ' ' + property + ': ';+  this.next()[property] + '\n';
-			}
-			else
-			{
-				result = result + ' ' +  this.next() + '\n';
-			}
-		}
-		alert(result);
 	},
 
 	flatten : function ( separator, property )
@@ -220,6 +212,21 @@ Collection.prototype = {
 		return result;
 	},
 
+	createFromList : function ( source, separator )
+	{
+		this.pointer_ = -1;
+		var separ;
+		if ( separator )
+		{
+			separ = separator;
+		}
+		else
+		{
+			separ = ' ';
+		}
+		this.listContainer_ = source.split( separ );
+	},
+	
 	removeUsingProperty : function ( comparatorProperty, comparatorValue )
 	{
 		this.pointer_ = -1;
@@ -230,6 +237,23 @@ Collection.prototype = {
 				this.listContainer_.splice(this.pointer_, 1);
 			}
 		}
-	}
+	},
+	
+	show : function ( property )
+	{
+		this.pointer_ = -1;
+		var result = 'Collection\n\n';
+		while( this.hasNext())
+		{	if ( property )
+			{
+				result = result + ' ' + property + ': ';+  this.next()[property] + '\n';
+			}
+			else
+			{
+				result = result + ' ' +  this.next() + '\n';
+			}
+		}
+		alert(result);
+	},
 
 }
