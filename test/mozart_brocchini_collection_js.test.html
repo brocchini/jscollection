@@ -81,6 +81,14 @@ $(document).ready(function(){
     
     equals(col.indexOf(obj4), -1,  
       'Expected [-1] as the result of indexOf(obj4) , result was: ' + col.indexOf(obj4));  
+      
+   col.remove(obj2);
+   equals(col.size(), 2,  
+      'Expected [2] as the result of size() after remove(obj2) , result was: ' + col.size());  
+
+   col.remove(obj4);
+   equals(col.size(), 2,  
+      'Expected to keep size value after remove on a item that is not in the collection , result was: ' + col.size());     
         
   });  
 });  
