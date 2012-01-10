@@ -79,7 +79,18 @@ $(document).ready(function(){
 
    col.remove(obj4);
    equals(col.size(), 2,  
-      'Expected to keep size value after remove on a item that is not in the collection , got: ' + col.size());     
-        
+      'Expected to keep size value after remove on a item that is not in the collection , got: ' + col.size());  
+      
+   var predicate = function(item) { 
+      return item['camera']=='AE1'; 
+   }
+    
+   col.removeByPredicate( predicate);
+   equals(col.size(), 1,  
+      'Expected to keep size value after remove on a item that is not in the collection , got: ' + col.size());  
+   
+   equals(col.get(0), obj3,  
+      'col.get(0) got: ' + col.get(0));  
+      
   });  
 });  

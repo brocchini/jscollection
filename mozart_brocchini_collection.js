@@ -5,7 +5,7 @@
 @Author @brocchini
 
 ----
-Use case 1
+Usage
 
 // Create some data
 var obj1 = {name:'mozart', age:59, camera:'AE1'};
@@ -35,25 +35,18 @@ col.show('name');
 alert(col.flatten(' : ', 'camera'));
 
 // Remove an item based on a property value
-col.removeUsingProperty('name',obj2.name);
+col.removebyPredicate(
+function(it){ return it['name']=='roque';}
+);
 col.show('camera');
 
-----
-Use case 2
-var col = new Collection();
-
-// Parse a [space] separated list
-col.createFromList('mozart roque adair');
-
-alert(col.flatten());
-col.show();
-col.remove('mozart');
-col.show();
-
-col.add('ana');
-col.show();
-
 */
+
+if (!window.console) {console = {}}
+console.log = console.log || function() {}
+console.warn = console.warn || function() {}
+console.error = console.error || function() {}
+console.info = console.info || function() {}
 
 function Collection()
 {
@@ -114,6 +107,20 @@ function Collection()
 			}
 		}
 	}
+	
+	this.removeByPredicate = function ( predicate )
+	{
+		this.reset();
+		while( this.hasNext())
+		{
+		    var item = this.next()
+			if ( predicate( item ) )
+			{
+				listContainer_.splice(pointer_, 1);
+			}
+		}
+	}
+	
 }
 
 Collection.prototype = {
@@ -236,18 +243,6 @@ Collection.prototype = {
 			separ = ' ';
 		}
 		this.listContainer_ = source.split( separ );
-	},
-	
-	removeUsingProperty : function ( comparatorProperty, comparatorValue )
-	{
-		this.pointer_ = -1;
-		while( this.hasNext())
-		{
-			if (this.next()[comparatorProperty] == comparatorValue )
-			{
-				this.listContainer_.splice(this.pointer_, 1);
-			}
-		}
 	},
 	
 	show : function ( property )
