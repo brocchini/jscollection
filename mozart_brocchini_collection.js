@@ -55,59 +55,82 @@ col.show();
 
 */
 
-/*
-if (!window.console) console = {};
-console.log = console.log || function(){};
-console.warn = console.warn || function(){};
-console.error = console.error || function(){};
-console.info = console.info || function(){};
-*/
-
 function Collection()
 {
-	this.listContainer_	= new Array();
-	this.pointer_ = -1;
+    // Private members
+	var listContainer_ = new Array();
+	var pointer_ = -1;
+	_ = this;
+    
+    function inc () 
+    {
+      return ++pointer_;
+    }
+    
+    
+    // Public low level API
+    this.size = function ()
+    {
+      return listContainer_.length;
+    }
+    
+    this.index = function ()
+    {
+      return pointer_;
+    }
+    
+    this.next = function ()
+	{  
+		if ( !this.hasNext() )
+		{
+			return null;
+		}
+		return (listContainer_[inc()]);
+	}
+	
+    this.add = function ( obj )
+	{
+		listContainer_[this.size()] = obj;
+	}
+	
+	this.get = function ( i )
+	{
+	  return listContainer_[i];	
+	}
+	
+	this.reset = function ()
+	{
+	  pointer_ = -1;
+	}
+
+	this.remove = function ( item )
+	{
+		this.reset();
+		while( this.hasNext())
+		{
+			if (this.next() == item )
+			{
+				listContainer_.splice(this.index(), 1);
+			}
+		}
+	}
 }
 
 Collection.prototype = {
 
 	isEmpty : function ()
 	{
-		return !this.listContainer_.length > 0;
+		return !this.size() > 0;
 	},
-
-    size : function ()
-    {
-      return this.listContainer_.length;
-    },
   
 	hasNext : function ()
 	{
-		return ( !this.isEmpty() ) &&  ( ( this.pointer_ + 1) <  this.listContainer_.length );
-	},
-
-	next : function ()
-	{  
-		if ( !this.hasNext() )
-		{
-			return null;
-		}
-		return (this.listContainer_[++this.pointer_]);
+		return ( !this.isEmpty() ) &&  ( ( this.index() + 1) < this.size() );
 	},
 	
-	add : function ( obj )
-	{
-		this.listContainer_[this.listContainer_.length] = obj;
-	},
-	
-	get : function ( i )
-	{
-	  return this.listContainer_[i];	
-	},
-
 	contains : function ( obj )
 	{
-	    this.pointer_ = -1;
+	    this.reset();
 		var item;
 		while( this.hasNext())
 		{
@@ -123,33 +146,21 @@ Collection.prototype = {
 	
 	indexOf: function ( item )
 	{
-		this.pointer_ = -1;
+		this.reset();
 		while( this.hasNext())
 		{
 			if (this.next() == item )
 			{
-				return this.pointer_;
+				return this.index();
 			}
 		}
         
         return -1;
 	},
-
-	remove : function ( item )
-	{
-		this.pointer_ = -1;
-		while( this.hasNext())
-		{
-			if (this.next() == item )
-			{
-				this.listContainer_.splice(this.pointer_, 1);
-			}
-		}
-	},
 	
 	search : function ( comparatorProperty, comparatorValue )
 	{
-		this.pointer_ = -1;
+		this.reset();
 		var item = null;
 		while( this.hasNext())
 		{
@@ -166,7 +177,7 @@ Collection.prototype = {
 
 	each : function ( map )
 	{
-		this.pointer_ = -1;
+		this.reset();
 		var item = null;
 		while( this.hasNext())
 		{
@@ -177,7 +188,7 @@ Collection.prototype = {
 
 	flatten : function ( separator, property )
 	{
-		this.pointer_ = -1;
+		this.reset();
 
 		var separ;
 		if ( separator )
