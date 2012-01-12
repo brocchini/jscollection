@@ -135,7 +135,7 @@ $(document).ready(function(){
       'get(1) got: ' + col.get(1));  
       }); 
  
-   test("parseAndBuild with separator test", function()  
+  test("parseAndBuild with separator test", function()  
   {  
    var  col = Collection.prototype.parseAndBuild('a:b:c',':');
    equals(col.size(), 3,  
@@ -146,9 +146,31 @@ $(document).ready(function(){
     
    equals(col.get(1), 'b',  
       'get(1) got: ' + col.get(1));   
-      
-      col.flatten();
+
   }); 
   
+  module("Iteration Test");  
+  test("each sum all test", function()  
+  {  
+   var  col = Collection.prototype.parseAndBuild('8:2:5',':');
+   var total = 0;
+   var add = function(a,b) { return a+b; };
+   var sum = function(c){ total = add(total, parseFloat(c));};
+   col.each(sum);
+   equals(total, 8+2+5,  
+      '"[8,2,5]" each(sum) got: ' + total);   
+    }); 
+
+  test("flatten test", function()  
+  {  
+    var col = new Collection(['January', 'February', 'March']);
+    var concatenated = col.flatten();
+    equals(concatenated, 'January February March',  
+      'flatten() , got: ' + concatenated);  
+  
+    concatenated = col.flatten(":");
+    equals(concatenated, 'January:February:March',  
+      'flatten(":") , got: ' + concatenated); 
+    }); 
   
 });  
