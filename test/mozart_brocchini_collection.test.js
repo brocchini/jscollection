@@ -137,7 +137,7 @@ $(document).ready(function(){
  
    test("parseAndBuild with separator test", function()  
   {  
-   var  col = Collection.prototype.parseAndBuild('a,b,c',',');
+   var  col = Collection.prototype.parseAndBuild('a:b:c',':');
    equals(col.size(), 3,  
       'col.parseAndBuild("a:b:c",":").size() , got: ' + col.size()); 
       
