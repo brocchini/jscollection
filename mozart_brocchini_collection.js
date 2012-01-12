@@ -20,7 +20,7 @@ col.add(obj1);
 col.add(obj2);
 col.add(obj3);
 
-// Call map a function to each collection item 
+// Call a map function on each collection item 
 col.each( 
   function(it){
     alert('Camera is '+ it.camera+ ', age=' +it.age);
@@ -35,7 +35,7 @@ col.show('name');
 alert(col.flatten(' : ', 'camera'));
 
 // Remove an item based on a property value
-col.removebyPredicate(
+col.removeByPredicate(
 function(it){ return it['name']=='roque';}
 );
 col.show('camera');
@@ -43,33 +43,29 @@ col.show('camera');
 */
 
 if (!window.console) {console = {}}
-console.log = console.log || function() {}
-console.warn = console.warn || function() {}
-console.error = console.error || function() {}
-console.info = console.info || function() {}
+console.log = console.log || function() {};
+console.warn = console.warn || function() {};
+console.error = console.error || function() {};
+console.info = console.info || function() {};
 
-function Collection()
+function Collection( dataArray )
 {
     // Private members
-	var listContainer_ = new Array();
+	var listContainer_ = dataArray ? dataArray : new Array();
 	var pointer_ = -1;
-	_ = this;
     
     function inc () 
     {
       return ++pointer_;
     }
     
-    
-    // Public low level API
-    this.size = function ()
-    {
-      return listContainer_.length;
+    // Privileged API
+    this.size = function () {
+        return listContainer_.length;
     }
     
-    this.index = function ()
-    {
-      return pointer_;
+    this.index = function () {
+        return pointer_;
     }
     
     this.next = function ()
@@ -96,31 +92,10 @@ function Collection()
 	  pointer_ = -1;
 	}
 
-	this.remove = function ( item )
-	{
-		this.reset();
-		while( this.hasNext())
-		{
-			if (this.next() == item )
-			{
-				listContainer_.splice(this.index(), 1);
-			}
-		}
-	}
-	
-	this.removeByPredicate = function ( predicate )
-	{
-		this.reset();
-		while( this.hasNext())
-		{
-		    var item = this.next()
-			if ( predicate( item ) )
-			{
-				listContainer_.splice(pointer_, 1);
-			}
-		}
-	}
-	
+    this.removeCurrent = function ()
+    {
+       listContainer_.splice(this.index(), 1);
+    }
 }
 
 Collection.prototype = {
@@ -163,6 +138,24 @@ Collection.prototype = {
 		}
         
         return -1;
+	},
+
+    removeByPredicate : function ( predicate )
+	{
+		this.reset();
+		while( this.hasNext())
+		{
+		    var item = this.next();
+			if ( predicate( item ) )
+			{
+				this.removeCurrent();
+			}
+		}
+	},
+
+    remove : function ( item )
+	{
+        this.removeByPredicate( function(it){ return it==item;} );
 	},
 	
 	search : function ( comparatorProperty, comparatorValue )
@@ -226,13 +219,12 @@ Collection.prototype = {
 				result = result + separ;
 			}
 		}
-
+ 		
 		return result;
 	},
 
-	createFromList : function ( source, separator )
+	parseAndBuild : function ( source, separator )
 	{
-		this.pointer_ = -1;
 		var separ;
 		if ( separator )
 		{
@@ -242,12 +234,13 @@ Collection.prototype = {
 		{
 			separ = ' ';
 		}
-		this.listContainer_ = source.split( separ );
+		
+		return new Collection( source.split( separ ) );
 	},
 	
 	show : function ( property )
 	{
-		this.pointer_ = -1;
+		this.reset();
 		var result = 'Collection\n\n';
 		while( this.hasNext())
 		{	if ( property )
@@ -260,6 +253,5 @@ Collection.prototype = {
 			}
 		}
 		alert(result);
-	},
-
+	}
 }
