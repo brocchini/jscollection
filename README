@@ -5,12 +5,12 @@ A JavaScript Collection implementation that doesn't have any dependencies
 @Author @brocchini
 
 ----
-Use case 1
+Usage
 
 // Create some data
-var obj1 = {name:'mozart', age:59, camera:'AE1'};
-var obj2 = {name:'roque', age:76, camera: 'Rolleiflex'};
-var obj3 = {name:'adair', age:69, camera: 'EOS'};
+var obj1 = {name:'Ana', age:19, camera:'AE1'};
+var obj2 = {name:'Rod', age:76, camera: 'Rolleiflex'};
+var obj3 = {name:'Sandy', age:69, camera: 'EOS'};
 
 // Create a collection instance
 var col = new Collection();
@@ -20,35 +20,19 @@ col.add(obj1);
 col.add(obj2);
 col.add(obj3);
 
-// Call map a function to each collection item 
+// Call a function on each collection item 
 col.each( 
   function(it){
     alert('Camera is '+ it.camera+ ', age=' +it.age);
   });
 
 // Iterate to next item
-col.next();
-
-// Call show on a property
-col.show('name');
+alert(col.next()['name']);
 
 alert(col.flatten(' : ', 'camera'));
 
 // Remove an item based on a property value
-col.removeUsingProperty('name',obj2.name);
-col.show('camera');
+col.removeByPredicate(
+ function(it){ return it['name']=='Rod';}
+);
 
-----
-Use case 2
-var col = new Collection();
-
-// Parse a [space] separated list
-col.createFromList('mozart roque adair');
-
-alert(col.flatten());
-col.show();
-col.remove('mozart');
-col.show();
-
-col.add('ana');
-col.show();

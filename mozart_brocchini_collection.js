@@ -20,23 +20,20 @@ col.add(obj1);
 col.add(obj2);
 col.add(obj3);
 
-// Call a map function on each collection item 
+// Call a function on each collection item 
 col.each( 
   function(it){
     alert('Camera is '+ it.camera+ ', age=' +it.age);
   });
 
 // Iterate to next item
-col.next();
-
-// Call show on a property
-col.show('name');
+alert(col.next()['name']);
 
 alert(col.flatten(' : ', 'camera'));
 
 // Remove an item based on a property value
 col.removeByPredicate(
-function(it){ return it['name']=='roque';}
+ function(it){ return it['name']=='Rod';}
 );
 
  */
