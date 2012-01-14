@@ -188,38 +188,19 @@ Collection.prototype = {
 
 	flatten : function ( separator, property )
 	{
-		this.reset();
-
-		var separ;
-		if ( separator )
-		{
-			separ = separator;
-		}
-		else
-		{
-			separ = ' ';
-		}
-
-		var result = '';
-		while( this.hasNext() )
-		{
-			var item = this.next();
-
-			if ( property )
-			{
-				result = result + item[property];
-			}
-			else
-			{
-				result = result + item;
-			}
-
-			if ( this.hasNext() )
-			{
-				result = result + separ;
-			}
-		}
- 		
+		var separ = separator ? separator : ' ';
+		var result = null;
+		
+        var glue = function(a,b) { 
+         if (a) { return a + separ + b; }
+         else { return b; } };
+         
+        var concat = function(it){ 
+          if ( property ) { result = glue(result, it[property]); }
+          else { result = glue(result, it);  }
+         };
+         
+        this.each(concat);	 		
 		return result;
 	},
 
@@ -236,22 +217,5 @@ Collection.prototype = {
 		}
 		
 		return new Collection( source.split( separ ) );
-	},
-	
-	show : function ( property )
-	{
-		this.reset();
-		var result = 'Collection\n\n';
-		while( this.hasNext())
-		{	if ( property )
-			{
-				result = result + ' ' + property + ': ';+  this.next()[property] + '\n';
-			}
-			else
-			{
-				result = result + ' ' +  this.next() + '\n';
-			}
-		}
-		alert(result);
 	}
 }
