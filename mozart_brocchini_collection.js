@@ -90,6 +90,15 @@ function Collection(dataArray) {
   this.removeCurrent = function() {
     listContainer_.splice(this.index(), 1);
   };
+  
+  this.sort = function ( param ) {
+    if (param){
+      
+    }
+    else {
+      listContainer_.sort();
+    }
+  };
 }
 
 Collection.prototype = {
