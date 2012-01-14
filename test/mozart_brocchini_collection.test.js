@@ -5,19 +5,19 @@ $(document)
           function makeData() {
             // Create some data
             this.obj1 = {
-              name : 'mozart',
+              name : 'Marta',
               age : 59,
-              camera : 'AE1'
+              camera : 'EOS'
             };
             this.obj2 = {
-              name : 'roque',
+              name : 'Rod',
               age : 76,
               camera : 'Rolleiflex'
             };
             this.obj3 = {
-              name : 'adair',
+              name : 'Monica',
               age : 69,
-              camera : 'EOS'
+              camera : 'AE1'
             };
             
             // Create a collection instance
@@ -118,12 +118,12 @@ $(document)
                         + col.size());
                 
                 var predicate = function(item) {
-                  return item['camera'] == 'AE1';
+                  return item['camera'] == 'EOS';
                 };
                 
                 col.removeByPredicate(predicate);
                 equals(col.size(), 1,
-                    'removeByPredicate(function(item) { return item["camera"]=="AE1"; } ) , got: '
+                    'removeByPredicate(function(item) { return item["camera"]=="EOS"; } ) , got: '
                         + col.size());
                 
                 equals(col.get(0), d3.obj3, 'col.get(0) got: ' + col.get(0));
@@ -184,15 +184,44 @@ $(document)
           
           module("Sort Test");
           test("Basic sort test", function() {
-            var col = new Collection([ 'January', 'February', 'March', 'April' ]);
+            var col = new Collection(
+                [ 'January', 'February', 'March', 'April' ]);
             col.sort();
-            equals(col.get(0), 'April',
-                'get(0) , got: ' + col.get(0));
-            equals(col.get(1), 'February',
-                'get(1) , got: ' + col.get(1));
-            equals(col.get(2), 'January',
-                'get(2) , got: ' + col.get(2));
+            equals(col.get(0), 'April', 'get(0) , got: ' + col.get(0));
+            equals(col.get(1), 'February', 'get(1) , got: ' + col.get(1));
+            equals(col.get(2), 'January', 'get(2) , got: ' + col.get(2));
             equals(col.size(), 4, 'size() got: ' + col.size());
+          });
+          
+          test("Comparator sort test", function() {
+            var d4 = new makeData();
+            var col = d4.col;
+            
+            var byAge = function(a, b) { 
+              return  a['age'] - b['age'];
+            };
+            
+            col.sort(byAge);
+            equals(col.get(0), d4.obj1, 'get(0) , got: ' + col.get(0));
+            equals(col.get(1), d4.obj3, 'get(1) , got: ' + col.get(1));
+            equals(col.get(2), d4.obj2, 'get(2) , got: ' + col.get(2));
+            equals(col.size(), 3, 'size() got: ' + col.size());
+          });
+          
+          test("Property sort test", function() {
+            var d4 = new makeData();
+            var col = d4.col;
+            col.sort('age');
+            equals(col.get(0), d4.obj1, 'get(0) , got: ' + col.get(0));
+            equals(col.get(1), d4.obj3, 'get(1) , got: ' + col.get(1));
+            equals(col.get(2), d4.obj2, 'get(2) , got: ' + col.get(2));
+            equals(col.size(), 3, 'size() got: ' + col.size());
+            
+            col.sort('camera');
+            equals(col.get(0), d4.obj3, 'get(0) , got: ' + col.get(0));
+            equals(col.get(1), d4.obj1, 'get(1) , got: ' + col.get(1));
+            equals(col.get(2), d4.obj2, 'get(2) , got: ' + col.get(2));
+            equals(col.size(), 3, 'size() got: ' + col.size());
           });
           
         });

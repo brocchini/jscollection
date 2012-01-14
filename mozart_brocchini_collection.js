@@ -91,13 +91,29 @@ function Collection(dataArray) {
     listContainer_.splice(this.index(), 1);
   };
   
-  this.sort = function ( param ) {
-    if (param){
-      
-    }
-    else {
+  this.sortBy = function(prop) {
+    var comparator = function(a, b) {
+      if (a[prop] == b[prop]) {
+        return 0;
+      } else if (a[prop] > b[prop]) {
+        return 1;
+      } else {
+        return -1;
+      }
+    };
+    listContainer_.sort(comparator);
+    return this;
+  };
+  
+  this.sort = function(param) {
+    if (param && typeof (param) == 'function') {
+      listContainer_.sort(param);
+    } else if (listContainer_[0][param]) {
+      this.sortBy(param);
+    } else {
       listContainer_.sort();
     }
+    return this;
   };
 }
 
