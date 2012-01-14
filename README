@@ -20,14 +20,17 @@ col.add(obj1);
 col.add(obj2);
 col.add(obj3);
 
+// Iterate to next item
+alert(col.next()['name']);
+
+// Sort by property
+col.sortBy('name');
+
 // Call a function on each collection item 
 col.each( 
   function(it){
     alert('Camera is '+ it.camera+ ', age=' +it.age);
   });
-
-// Iterate to next item
-alert(col.next()['name']);
 
 alert(col.flatten(' : ', 'camera'));
 
@@ -35,4 +38,5 @@ alert(col.flatten(' : ', 'camera'));
 col.removeByPredicate(
  function(it){ return it['name']=='Rod';}
 );
+
 

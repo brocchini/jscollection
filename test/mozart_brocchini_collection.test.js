@@ -217,7 +217,7 @@ $(document)
             equals(col.get(2), d4.obj2, 'get(2) , got: ' + col.get(2));
             equals(col.size(), 3, 'size() got: ' + col.size());
             
-            col.sort('camera');
+            col.sortBy('camera');
             equals(col.get(0), d4.obj3, 'get(0) , got: ' + col.get(0));
             equals(col.get(1), d4.obj1, 'get(1) , got: ' + col.get(1));
             equals(col.get(2), d4.obj2, 'get(2) , got: ' + col.get(2));
