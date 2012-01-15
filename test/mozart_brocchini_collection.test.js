@@ -130,6 +130,31 @@ $(document)
                 
               });
           
+          test(
+              "Clear test",
+              function() {
+                var d5 = new makeData();
+                var col = d5.col;
+                
+                col.clear();
+                
+                ok(col.isEmpty(), 'isEmpty() Expected [true], got: '
+                    + col.isEmpty());
+                
+                equals(col.size(), 0, 'size() got: ' + col.size());
+                
+                ok(col.hasNext() === false, 'hasNext() Expected [false], got: '
+                    + col.hasNext());
+                
+                equals(col.get(d5.obj1), undefined, 'get(obj1) got: '
+                    + col.get(d5.obj1));
+                
+                equals(col.get(1), undefined, 'get(1) got: ' + col.get(1));
+                
+                equals(col.contains(d5.obj1), false, 'contains(obj1) got: '
+                    + col.contains(d5.obj1));
+              });
+          
           module("Parse Test");
           test("parseAndBuild no separator test",
               function() {

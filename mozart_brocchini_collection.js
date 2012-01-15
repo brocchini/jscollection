@@ -80,6 +80,7 @@ function Collection(dataArray) {
   
   this.add = function(obj) {
     listContainer_[this.size()] = obj;
+    return this;
   };
   
   this.get = function(i) {
@@ -116,6 +117,11 @@ function Collection(dataArray) {
     } else {
       listContainer_.sort();
     }
+    return this;
+  };
+  
+  this.clear = function(){
+    listContainer_.length = 0;
     return this;
   };
 }
