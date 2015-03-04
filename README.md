@@ -12,9 +12,9 @@ var obj3 = {name:'Sandy', age:69, camera: 'EOS'};
 var col = new Collection();
 
 // Add data to collection object
-col.add(obj1);
-col.add(obj2);
-col.add(obj3);
+col.add(obj1)   
+   .add(obj2)
+   .add(obj3);
 
 // Iterate to next item
 alert(col.next()['name']);
