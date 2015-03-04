@@ -24,9 +24,9 @@ $(document)
             this.col = new Collection();
             
             // Add data to collection object
-            this.col.add(this.obj1);
-            this.col.add(this.obj2);
-            this.col.add(this.obj3);
+            this.col.add(this.obj1)
+                    .add(this.obj2)
+                    .add(this.obj3);
             
             // Loose object
             this.obj4 = {

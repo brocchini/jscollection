@@ -17,8 +17,8 @@ var col = new Collection();
 
 // Add data to collection object
 col.add(obj1);
-col.add(obj2);
-col.add(obj3);
+   .add(obj2)
+   .add(obj3);
 
 // Iterate to next item
 alert(col.next()['name']);
@@ -175,7 +175,7 @@ Collection.prototype = {
       return it == item;
     });
   },
-  
+  // TODO: this is very inefficient for large collections, implement a faster algorithm
   search : function(comparatorProperty, comparatorValue) {
     this.reset();
     var item = null;
