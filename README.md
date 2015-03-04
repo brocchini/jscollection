@@ -1,8 +1,4 @@
-A JavaScript Collection implementation without external dependencies
-
-@Author Mozart Brocchini
-@Author http://www.linkedin.com/in/brocchini
-@Author @brocchini
+#A JavaScript Collection implementation without external dependencies
 
 ----
 Usage
